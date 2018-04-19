@@ -1,0 +1,12 @@
+{
+  "name": "d3-project-template",
+  "version": "0.1.0",
+  "description": "Ready to go d3 data visualization project template",
+  "keywords": ["data visualization", "d3"],
+  "dependencies": {
+    "d3": "3.5.17"
+  },
+  "devDependencies": {
+    "uglify-js": "2.x"
+  }
+}
