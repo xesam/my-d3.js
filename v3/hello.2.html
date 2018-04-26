@@ -7,25 +7,37 @@
 
 <body>
     <script>
-        var dataset = [50, 43, 20, 54, 34];
+        var width = 400;
+        var height = 300;
+        var paddings = {
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20
+        };
+        var rect_step = 40;
+        var rect_width = 30;
+
+        var dataset = [200, 143, 120, 154, 134];
         var svg = d3.select('body')
             .append('svg')
-            .attr('width', 400)
-            .attr('height', 300);
-        svg.append('circle')
-            .attr('cx', '50px')
-            .attr('cy', '50px')
-            .attr('r', '50px')
-            .attr('fill', 'red');
-
-        var paddings = {
-            top:20,
-            right:20,
-            bottom:20,
-            top:20
-        };
-        var rect_step = 30;
-        var rect_width = 30;
+            .attr('width', width)
+            .attr('height', height);
+        svg.selectAll('rect')
+            .data(dataset)
+            .enter()
+            .append('rect')
+            .attr('fill', 'blue')
+            .attr('x', function (d, i) {
+                return i * rect_step + paddings.left;
+            })
+            .attr('y', function (d, i) {
+                return height - d;
+            })
+            .attr('width', rect_width)
+            .attr('height', function (d, i) {
+                return d;
+            });
     </script>
 </body>
 
