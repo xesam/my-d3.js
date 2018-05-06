@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <style>
+        .data-p {
+            color: teal;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="./node_modules/d3/d3.js"></script>
+</head>
+
+<body>
+    <script>
+        let x_scale_1 = d3.scale.ordinal().domain(['a', 'b', 'c', 'd', 'e']).rangeBands([0, 100]);
+        console.log(x_scale_1('a'));
+        console.log(x_scale_1.rangeBand());
+        let x_scale_2 = d3.scale.ordinal().domain(d3.range(10)).rangeBands([0, 100]);
+        console.log(x_scale_2(2));
+        console.log(x_scale_2.rangeBand());
+        let x_scale_3 = d3.scale.ordinal().domain(d3.range(3)).rangeBands([0, 10]);
+        console.log(x_scale_3(0));
+        console.log(x_scale_3(1));
+        console.log(x_scale_3(2));
+        console.log(x_scale_3.rangeBand());
+        let x_scale_4 = d3.scale.ordinal().domain(d3.range(3)).rangeRoundBands([0, 10]);
+        console.log(x_scale_4(0));
+        console.log(x_scale_4(1));
+        console.log(x_scale_4(2));
+        console.log(x_scale_4.rangeBand());
+    </script>
+</body>
+
+</html>
