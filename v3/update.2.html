@@ -107,6 +107,9 @@
             svg.selectAll('rect')
                 .data(dataset)
                 .transition()
+                .delay(function (d, i) {
+                    return i * 100;
+                })
                 .duration(1000)
                 .attr('y', function (d, i) {
                     return scale_y(d);
@@ -120,6 +123,9 @@
             svg.selectAll('text')
                 .data(dataset)
                 .transition()
+                .delay(function (d, i) {
+                    return i * 100;
+                })
                 .duration(1000)
                 .text(function (d, i) {
                     return d;
