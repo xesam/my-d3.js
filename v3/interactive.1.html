@@ -1,0 +1,120 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <style>
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+    </style>
+    <script src="./node_modules/d3/d3.js"></script>
+    <script src="./dataset.js"></script>
+</head>
+
+<body>
+    <p>
+        <button id="update">update</button>
+    </p>
+    <script>
+        var width = 600;
+        var height = 400;
+        var paddings = {
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 30
+        };
+        let count = 20;
+        var dataset = random_ints(count, [10, 100]);
+
+        var svg = d3.select('body')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .style('background', '#e4e4e4');
+
+        var scale_x = d3.scale.ordinal()
+            .domain(d3.range(count))
+            .rangeRoundBands([paddings.left, width - paddings.right], 0.05);
+
+        var scale_y = d3.scale.linear()
+            .domain([0, 100])
+            .range([height - paddings.bottom, paddings.top]);
+
+        svg.selectAll('rect')
+            .data(dataset)
+            .enter()
+            .append('rect')
+            .attr('fill', 'teal')
+            .attr('x', function (d, i) {
+                return scale_x(i);
+            })
+            .attr('y', function (d, i) {
+                return scale_y(d);
+            })
+            .attr({
+                width: scale_x.rangeBand(),
+                height: function (d, i) {
+                    return height - paddings.bottom - scale_y(d);
+                }
+            })
+            .on('mouseover', function (d, i) {
+                let x = d3.select(this).attr('x');
+                let y = d3.select(this).attr('y');
+                svg.append('text')
+                    .attr('id', 'tooltip')
+                    .attr('x', x)
+                    .attr('y', y)
+                    .attr('fill', 'red')
+                    .text(d);
+            })
+            .on('mouseout', function (d, i) {
+                d3.select('#tooltip').remove();
+            });
+
+        svg.selectAll('text')
+            .data(dataset)
+            .enter()
+            .append('text')
+            .text(function (d, i) {
+                return d;
+            })
+            .attr('x', function (d, i) {
+                return scale_x(i) + scale_x.rangeBand() / 2;
+            })
+            .attr('y', function (d, i) {
+                return scale_y(d) + 14;
+            })
+            .attr('text-anchor', 'middle')
+            .attr('font-size', 10)
+            .attr('fill', 'white');
+
+        var axis_x = d3.svg.axis()
+            .scale(scale_x)
+            .orient('bottom');
+
+        svg.append('g')
+            .attr('class', 'axis')
+            .attr('transform', `translate(0, ${height - paddings.bottom})`)
+            .call(axis_x);
+
+        var axis_y = d3.svg.axis()
+            .scale(scale_y)
+            .orient('left');
+
+        svg.append('g')
+            .attr('class', 'axis')
+            .attr('transform', `translate(${paddings.left}, 0)`)
+            .call(axis_y);
+    </script>
+</body>
+
+</html>
